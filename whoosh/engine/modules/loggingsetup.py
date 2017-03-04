@@ -10,5 +10,5 @@ from whoosh.engine.hooker import EngineHooker
 
 class LoggingSetupModule(EngineHooker):
 
-    def on_init(self):
+    def __init__(self):
         logging.basicConfig(level=logging.INFO)

@@ -11,12 +11,6 @@ class EngineHooker:
     """
     __metaclass__ = ABCMeta
 
-    def on_init(self):
-        """
-        Called after the hooker has been created
-        """
-        pass
-
     def on_set_window(self, window):
         """
         Called when the window is set on the engine

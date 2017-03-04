@@ -46,6 +46,17 @@ class Blob:
         """
         return tag in self.tags
 
+    def trigger(self, hook_name, *args):
+        """
+        Triggers the given hook on each of the blob's components.
+        It works by dynamically checking whether the component has a method of the given name.
+        """
+        for component in self.itercomponents():
+            hook = getattr(component, hook_name, None)
+            if hook:
+                assert(callable(hook))
+                hook(*args)
+
     def add_component(self, component):
         """
         Adds a component to the blob.
@@ -56,6 +67,7 @@ class Blob:
             raise ValueError("Component argument has the wrong type: {0}".format(component))
         self.components[type(component)] = component
         component._blob = self
+        component.on_add_to_blob(self)
 
     def get_component(self, component_type):
         """

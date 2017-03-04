@@ -99,7 +99,6 @@ class PhysicsComponent(BaseComponent):
         """
         hw, hh = width/2.0, height/2.0
         vertices = [(-hw, -hh), (hw, -hh), (hw, hh), (-hw, hh)]
-        print("vertices={0}".format(vertices))
         return self.add_poly(vertices)
 
     def add_segment(self, a, b, radius):

@@ -15,9 +15,27 @@ class BaseComponent(EngineHooker):
         self.properties = {} # it is useful for many reasons for components to have a set of key-value pairs
         self._blob = None
 
+    def on_add_to_blob(self, blob):
+        """
+        Called once when the component is added to a blob
+        """
+        pass
+
     def on_die(self):
         """
         Called when the blob dies.
+        """
+        pass
+
+    def on_collision_begin(self, arbiter, data):
+        """
+        Called when the blob begins to collide with something
+        """
+        pass
+
+    def on_collision_separate(self, arbiter, data):
+        """
+        Called when the blob finishes colliding with something
         """
         pass
 
