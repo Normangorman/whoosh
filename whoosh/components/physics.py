@@ -20,20 +20,6 @@ class PhysicsComponent(BaseComponent):
         self.body = pymunk.Body(**kwargs)
         self.shapes = []
 
-        """
-        mass = 10.0
-        moment = pymunk.moment_for_circle(mass, inner_radius=0, outer_radius=10)
-        self.body = pymunk.Body(mass=mass, moment=moment, body_type=pymunk.Body.DYNAMIC)
-        self.body.position = pymunk.vec2d.Vec2d(300 + 50, 105 + 20.0)
-        self.shapes = [pymunk.Circle(self.body, 20)]
-        #self.space.add(body, shape)
-        """
-
-        self._new_position = None
-        self._new_velocity = None
-        #self.body.position_func = self._set_position_func
-        #self.body.velocity_func = self._set_velocity_func
-
     def get_position(self):
         """
         Returns the position of the body as a Vec2f.
@@ -59,8 +45,6 @@ class PhysicsComponent(BaseComponent):
         The position won't actually be changed until the next physics world step, when
         chipmunk calls our _set_velocity_func.
         """
-        #self._new_position = pos
-        #self.body.position = pymunk.vec2d.Vec2d(200.0, 200.0)
         self.body.position = pos
 
     def add_circle(self, radius, **kwargs):
@@ -79,6 +63,15 @@ class PhysicsComponent(BaseComponent):
         self.shapes.append(shape)
         return shape
 
+    def add_rect(self, width, height):
+        """
+        Utility method which creates a rectangular pymunk Poly shape and adds it to the body
+        """
+        hw, hh = width/2.0, height/2.0
+        vertices = [(-hw, -hh), (hw, -hh), (hw, hh), (-hw, hh)]
+        print("vertices={0}".format(vertices))
+        return self.add_poly(vertices)
+
     def add_segment(self, a, b, radius):
         """
         Utility method which creates a pymunk Segment shape and adds it to the body.
@@ -95,21 +88,3 @@ class PhysicsComponent(BaseComponent):
         verts = whoosh.maths.get_ngon_vertices(radius, sides)
         print("Verts are {0}".format(verts))
         return self.add_poly(verts)
-
-    def _set_position_func(self, body, dt):
-        """
-        Called by chipmunk every time step. If something has called set_position recently then the position will be
-        actually updated here.
-        """
-        if self._new_position:
-            self.body.position = self._new_position
-        self._new_position = None
-
-    def _set_velocity_func(self, gx, gy, damping, dt):
-        """
-        Called by chipmunk every time step. If something has called set_velocity recently then the velocity will be
-        actually updated here.
-        """
-        if self._new_velocity:
-            self.body.position = self._new_velocity
-        self._new_velocity = None
