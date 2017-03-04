@@ -1,0 +1,279 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>engine.blob &#8212; whoosh 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">whoosh 0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for engine.blob</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">You want blobs? Cause we got em.</span>
+<span class="sd">This engine uses a component-entity system, except entities are called blobs.</span>
+<span class="sd">This is because blob is nice to type.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Blob"><a class="viewcode-back" href="../../index.html#engine.blob.Blob">[docs]</a><span class="k">class</span> <span class="nc">Blob</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Blob class docstring.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">netid</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">netid</span> <span class="o">=</span> <span class="n">netid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">physics_body</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">properties</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scripts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keys_pressed</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># the keys pressed on the current tick</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">old_keys_pressed</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># the keys pressed on the last tick</span>
+
+    <span class="k">def</span> <span class="nf">set_physics_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">):</span>
+        <span class="n">body</span><span class="o">.</span><span class="n">userData</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">physics_body</span> <span class="o">=</span> <span class="n">body</span>
+
+<div class="viewcode-block" id="Blob.get_velocity"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.get_velocity">[docs]</a>    <span class="k">def</span> <span class="nf">get_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">physics_body</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">scale_physics_velocity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">physics_body</span><span class="o">.</span><span class="n">linearVelocity</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Blob has no physics body&quot;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">get_position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">physics_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">physics_body</span><span class="o">.</span><span class="n">position</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;get_position: physics pos </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">physics_pos</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;get_position: scaled pos </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">scale_physics_position</span><span class="p">(</span><span class="n">physics_pos</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">physics_body</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">scale_physics_position</span><span class="p">(</span><span class="n">physics_pos</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Blob has no physics body&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">is_facing_left</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># TODO</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">is_facing_right</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># TODO</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_facing_left</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">is_on_ground</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># TODO</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">is_in_air</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_on_ground</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">add_force</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">):</span>
+        <span class="c1"># TODO</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">physics_body</span><span class="p">:</span>
+            <span class="n">scaled</span> <span class="o">=</span> <span class="n">scale_game_velocity</span><span class="p">(</span><span class="n">force</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Adding force to body of </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">scaled</span><span class="p">))</span>
+            <span class="n">body_center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">physics_body</span><span class="o">.</span><span class="n">GetWorldPoint</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">physics_body</span><span class="o">.</span><span class="n">ApplyForce</span><span class="p">(</span><span class="n">scaled</span><span class="p">,</span> <span class="n">body_center</span><span class="p">,</span> <span class="n">wake</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Blob.pre_tick"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.pre_tick">[docs]</a>    <span class="k">def</span> <span class="nf">pre_tick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called on each tick before all the blob&#39;s scripts are run.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">old_keys_pressed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys_pressed</span></div>
+
+<div class="viewcode-block" id="Blob.post_tick"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.post_tick">[docs]</a>    <span class="k">def</span> <span class="nf">post_tick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called on each tick after all the blob&#39;s scripts are run.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Blob.get_network_id"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.get_network_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_network_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the network ID of the blob, an int.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">netid</span></div>
+
+<div class="viewcode-block" id="Blob.get_name"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the name of the blob, a string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+
+<div class="viewcode-block" id="Blob.tag"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.tag">[docs]</a>    <span class="k">def</span> <span class="nf">tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tags the blob with a descriptive tag (string).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Blob.has_tag"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.has_tag">[docs]</a>    <span class="k">def</span> <span class="nf">has_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True/False whether the blob has the given tag.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">tag</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tags</span></div>
+
+<div class="viewcode-block" id="Blob.set_prop"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.set_prop">[docs]</a>    <span class="k">def</span> <span class="nf">set_prop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">,</span> <span class="n">prop_val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets a property on the blob with the given name and value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="n">prop_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">prop_val</span></div>
+
+<div class="viewcode-block" id="Blob.get_prop"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.get_prop">[docs]</a>    <span class="k">def</span> <span class="nf">get_prop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the value of the property on the blob if it exists, else None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">prop_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="n">prop_name</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Blob.change_prop"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.change_prop">[docs]</a>    <span class="k">def</span> <span class="nf">change_prop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Alters a property using the given function.</span>
+<span class="sd">        The function should take one argument (the property value) and return the changed value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_prop</span><span class="p">(</span><span class="n">prop_name</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Blob has no property </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prop_name</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_prop</span><span class="p">(</span><span class="n">prop_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_prop</span><span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="n">func</span><span class="p">(</span><span class="n">val</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Blob.has_prop"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.has_prop">[docs]</a>    <span class="k">def</span> <span class="nf">has_prop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True/False whether the blob has the given property.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">prop_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span></div>
+
+<div class="viewcode-block" id="Blob.add_script"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.add_script">[docs]</a>    <span class="k">def</span> <span class="nf">add_script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a Script object to the blob&#39;s list of scripts.</span>
+<span class="sd">        This script will be run by the engine when certain hooks occur.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scripts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">script</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Blob.is_key_pressed"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.is_key_pressed">[docs]</a>    <span class="k">def</span> <span class="nf">is_key_pressed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">old_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Takes a keys constant (see engine.consts)</span>
+<span class="sd">        Returns True/False whether the blob is pressing that key</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">old_keys</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">old_keys_pressed</span> <span class="o">&amp;</span> <span class="n">key</span> <span class="o">!=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys_pressed</span> <span class="o">&amp;</span> <span class="n">key</span> <span class="o">!=</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="Blob.was_key_pressed"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.was_key_pressed">[docs]</a>    <span class="k">def</span> <span class="nf">was_key_pressed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True/False whether the blob was pressing the given key on the *previous* tick.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_key_pressed</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">old_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Blob.is_key_just_pressed"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.is_key_just_pressed">[docs]</a>    <span class="k">def</span> <span class="nf">is_key_just_pressed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True/False whether the blob was not pressing the key on the previous tick, but is currently pressing it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_key_pressed</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">was_key_pressed</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Blob.set_key_pressed"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.set_key_pressed">[docs]</a>    <span class="k">def</span> <span class="nf">set_key_pressed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">pressed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the pressed state of a key.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keys_pressed</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">key</span> <span class="c1"># clear it, then set again if needed</span>
+        <span class="k">if</span> <span class="n">pressed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keys_pressed</span> <span class="o">|=</span> <span class="n">key</span></div>
+
+<div class="viewcode-block" id="Blob.debug"><a class="viewcode-back" href="../../index.html#engine.blob.Blob.debug">[docs]</a>    <span class="k">def</span> <span class="nf">debug</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prints debug information about the blob.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Blob(name=</span><span class="si">{0}</span><span class="s2">, netid=</span><span class="si">{1}</span><span class="s2">, tags=</span><span class="si">{2}</span><span class="s2">, properties=</span><span class="si">{3}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+              <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">netid</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tags</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">)))</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">whoosh 0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Normangorman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,234 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to whoosh’s documentation! &#8212; whoosh 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">whoosh 0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to whoosh&#8217;s documentation!</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-whoosh-s-documentation">
+<h1>Welcome to whoosh&#8217;s documentation!<a class="headerlink" href="#welcome-to-whoosh-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-engine.blob"></span><p>You want blobs? Cause we got em.
+This engine uses a component-entity system, except entities are called blobs.
+This is because blob is nice to type.</p>
+<dl class="class">
+<dt id="engine.blob.Blob">
+<em class="property">class </em><code class="descclassname">engine.blob.</code><code class="descname">Blob</code><span class="sig-paren">(</span><em>netid</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Blob class docstring.</p>
+<dl class="method">
+<dt id="engine.blob.Blob.add_script">
+<code class="descname">add_script</code><span class="sig-paren">(</span><em>script</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.add_script"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.add_script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a Script object to the blob&#8217;s list of scripts.
+This script will be run by the engine when certain hooks occur.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="engine.blob.Blob.change_prop">
+<code class="descname">change_prop</code><span class="sig-paren">(</span><em>prop_name</em>, <em>func</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.change_prop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.change_prop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alters a property using the given function.
+The function should take one argument (the property value) and return the changed value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="engine.blob.Blob.debug">
+<code class="descname">debug</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.debug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints debug information about the blob.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="engine.blob.Blob.get_name">
+<code class="descname">get_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.get_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.get_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the name of the blob, a string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="engine.blob.Blob.get_network_id">
+<code class="descname">get_network_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.get_network_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.get_network_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the network ID of the blob, an int.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="engine.blob.Blob.get_prop">
+<code class="descname">get_prop</code><span class="sig-paren">(</span><em>prop_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.get_prop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.get_prop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the value of the property on the blob if it exists, else None</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="engine.blob.Blob.get_velocity">
+<code class="descname">get_velocity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.get_velocity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.get_velocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="engine.blob.Blob.has_prop">
+<code class="descname">has_prop</code><span class="sig-paren">(</span><em>prop_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.has_prop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.has_prop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True/False whether the blob has the given property.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="engine.blob.Blob.has_tag">
+<code class="descname">has_tag</code><span class="sig-paren">(</span><em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.has_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.has_tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True/False whether the blob has the given tag.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="engine.blob.Blob.is_key_just_pressed">
+<code class="descname">is_key_just_pressed</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.is_key_just_pressed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.is_key_just_pressed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True/False whether the blob was not pressing the key on the previous tick, but is currently pressing it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="engine.blob.Blob.is_key_pressed">
+<code class="descname">is_key_pressed</code><span class="sig-paren">(</span><em>key</em>, <em>old_keys=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.is_key_pressed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.is_key_pressed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a keys constant (see engine.consts)
+Returns True/False whether the blob is pressing that key</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="engine.blob.Blob.post_tick">
+<code class="descname">post_tick</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.post_tick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.post_tick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called on each tick after all the blob&#8217;s scripts are run.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="engine.blob.Blob.pre_tick">
+<code class="descname">pre_tick</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.pre_tick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.pre_tick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called on each tick before all the blob&#8217;s scripts are run.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="engine.blob.Blob.set_key_pressed">
+<code class="descname">set_key_pressed</code><span class="sig-paren">(</span><em>key</em>, <em>pressed=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.set_key_pressed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.set_key_pressed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the pressed state of a key.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="engine.blob.Blob.set_prop">
+<code class="descname">set_prop</code><span class="sig-paren">(</span><em>prop_name</em>, <em>prop_val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.set_prop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.set_prop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a property on the blob with the given name and value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="engine.blob.Blob.tag">
+<code class="descname">tag</code><span class="sig-paren">(</span><em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tags the blob with a descriptive tag (string).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="engine.blob.Blob.was_key_pressed">
+<code class="descname">was_key_pressed</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/engine/blob.html#Blob.was_key_pressed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#engine.blob.Blob.was_key_pressed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True/False whether the blob was pressing the given key on the <em>previous</em> tick.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">whoosh 0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Normangorman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.3.
+    </div>
+  </body>
+</html>
