@@ -29,10 +29,10 @@ class Camera:
         self.width, self.height = width, height
         self.viewport_width, self.viewport_height = width, height
         self.far = 8192
-        self.minfov = 10
-        self.maxfov = 100
+        self.minfov = 1
+        self.maxfov = 50
         self.fov = self.maxfov
-        self.default_zoom = 0.5
+        self.default_zoom = 0.25
         self.current_zoom = self.default_zoom
 
         self.activate_orthographic()

@@ -29,11 +29,9 @@ class CameraControlModule(EngineHooker):
 
     def on_render(self):
         if self.focus_blob:
-            print("Camera focusing on blob")
             # TODO: use blob transform?
             phys = self.focus_blob.get_component(PhysicsComponent)
             if phys:
-                print("Found physics component")
                 pos = phys.get_position()
                 self.center_on(pos)
 
