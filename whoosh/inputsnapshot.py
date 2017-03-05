@@ -12,7 +12,8 @@ class InputSnapshot:
     def __init__(self):
         self.keys = {}
         self.mouse = {}
-        self.mouse_pos = Vec2f()
+        self.screen_aim_pos = Vec2f() # position on the screen that the mouse is in
+        self.world_aim_pos = Vec2f() # position in the world the mouse is in
 
     def is_key_pressed(self, key):
         return bool(self.keys.get(key))
@@ -20,8 +21,17 @@ class InputSnapshot:
     def is_mouse_pressed(self, button):
         return bool(self.mouse.get(button))
 
-    def get_mouse_pos(self):
-        return self.mouse_pos
+    def get_world_aim_pos(self):
+        return self.world_aim_pos
+
+    def get_screen_aim_pos(self):
+        return self.screen_aim_pos
+
+    def set_world_aim_pos(self, pos):
+        self.world_aim_pos = pos
+
+    def set_screen_aim_pos(self, pos):
+        self.screen_aim_pos = pos
 
     def set_key_pressed(self, key):
         self.keys[key] = True

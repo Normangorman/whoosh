@@ -70,6 +70,32 @@ class Camera:
         gluPerspective(self.fov, self.viewport_width/float(self.viewport_height), 0.1, self.far)
         glMatrixMode(GL_MODELVIEW)
 
+    def convert_screen_to_world(self, pos):
+        """
+        Converts an x,y position on screen to the relevant world position
+        """
+        if self.mode != Camera.ORTHOGRAPHIC:
+            raise NotImplemented("convert_screen_to_world only implemented for Orthographic camera")
+        elif self.rx != 0 or self.rz != 0:
+            raise NotImplemented("convert_screen_to_world doesn't account for rotation yet")
+        sx = pos.x / float(self.width)
+        sy = pos.y / float(self.height)
+        worldx = self.x + sx * self.viewport_width
+        worldy = self.y + sy * self.viewport_height
+        return Vec2f(worldx, worldy)
+
+    def convert_world_to_screen(self, pos):
+        """
+        Converts an x,y position in the world to the relevant screen position
+        """
+        if self.mode != Camera.ORTHOGRAPHIC:
+            raise NotImplemented("convert_world_to_screen only implemented for Orthographic camera")
+        elif self.rx != 0 or self.rz != 0:
+            raise NotImplemented("convert_world_to_screen doesn't account for rotation yet")
+        dx = pos.x - self.x
+        dy = pos.y - self.y
+        return Vec2f(dx / self.current_zoom, dy / self.current_zoom)
+
     def center_on(self, pos):
         """
         Center the camera on a world position

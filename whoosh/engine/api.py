@@ -24,6 +24,12 @@ def get_game_world():
     global _ENGINE
     return _ENGINE.get_game_world()
 
+def get_camera():
+    _check_engine()
+    global _ENGINE
+    if _ENGINE.window:
+        return _ENGINE.window.get_camera()
+
 def _check_engine():
     global _ENGINE
     if not _ENGINE:

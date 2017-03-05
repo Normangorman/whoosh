@@ -2,6 +2,7 @@
 This module gives game scripts an interface to the user's mouse and keyboard.
 """
 import logging
+import whoosh.engine.api
 from whoosh.engine.hooker import EngineHooker
 from whoosh.inputsnapshot import InputSnapshot
 from whoosh.maths import Vec2f
@@ -30,8 +31,11 @@ class UserInputModule(EngineHooker):
     def is_mouse_pressed(self, button):
         return self.snapshot.is_mouse_pressed(button)
 
-    def get_mouse_pos(self):
-        return self.snapshot.get_mouse_pos()
+    def get_world_aim_pos(self):
+        return self.snapshot.get_world_aim_pos()
+
+    def get_screen_aim_pos(self):
+        return self.snapshot.get_world_aim_pos()
 
     def on_key_press(self, symbol, modifiers):
         """
@@ -66,4 +70,13 @@ class UserInputModule(EngineHooker):
         Window event handler
         """
         logger.debug("Mouse moved: ({0}, {1})".format(x, y))
-        self.snapshot.set_mouse_position(Vec2f(x, y))
+        screen_aim = Vec2f(x, y)
+        self.snapshot.set_screen_aim_pos(screen_aim)
+        cam = whoosh.engine.api.get_camera()
+        if cam == None:
+            raise Exception("Couldn't get Camera")
+        else:
+            world_aim = cam.convert_screen_to_world(screen_aim)
+            self.snapshot.set_world_aim_pos(world_aim)
+
+
